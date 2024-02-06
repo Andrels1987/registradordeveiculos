@@ -3,8 +3,10 @@ package com.meuapp.registradordeveiculos.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +38,7 @@ public class VeiculoController {
     VeiculoServiceImpl veiculoServiceImpl;
     @Autowired
     VeiculoRepositorio veiculoRepositorio;
-    @GetMapping("/todosveiculos")
+    @GetMapping(path = "/todosveiculos", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Veiculo>> getAllVeiculos(){
         CacheControl cacheControl = CacheControl.maxAge(1, TimeUnit.HOURS).noTransform().mustRevalidate();
         List<Veiculo> veiculos =  veiculoServiceImpl.todosVeiculos();
@@ -113,7 +115,7 @@ public class VeiculoController {
         return ResponseEntity.ok(msg);
         
     }
-    @GetMapping("/buscarregistrosdevisitas")
+    @GetMapping(path = "/buscarregistrosdevisitas", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<EntradaDeVisitantes>> buscarVisitantes(){
         List<EntradaDeVisitantes> visitas = veiculoServiceImpl.registrosDeVisitas();
         CacheControl cacheControl = CacheControl.maxAge(1, TimeUnit.HOURS).noTransform().mustRevalidate();
