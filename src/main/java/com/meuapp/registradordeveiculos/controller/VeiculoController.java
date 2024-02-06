@@ -4,7 +4,7 @@ package com.meuapp.registradordeveiculos.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.concurrent.TimeUnit;
 
 import com.meuapp.registradordeveiculos.Repositorio.VeiculoRepositorio;
 import com.meuapp.registradordeveiculos.ServiceImpl.VeiculoServiceImpl;
@@ -37,8 +38,10 @@ public class VeiculoController {
     VeiculoRepositorio veiculoRepositorio;
     @GetMapping("/todosveiculos")
     public ResponseEntity<List<Veiculo>> getAllVeiculos(){
+        CacheControl cacheControl = CacheControl.maxAge(1, TimeUnit.HOURS).noTransform().mustRevalidate();
         List<Veiculo> veiculos =  veiculoServiceImpl.todosVeiculos();
-        return ResponseEntity.ok(veiculos);
+        
+        return ResponseEntity.ok().cacheControl(cacheControl).body(veiculos);
     }
     @GetMapping("veiculo/placa/{placa}")
     public ResponseEntity<Veiculo> getVeiculoPelaPlaca(@PathVariable("placa") String placa){
@@ -113,7 +116,9 @@ public class VeiculoController {
     @GetMapping("/buscarregistrosdevisitas")
     public ResponseEntity<List<EntradaDeVisitantes>> buscarVisitantes(){
         List<EntradaDeVisitantes> visitas = veiculoServiceImpl.registrosDeVisitas();
-        return ResponseEntity.ok(visitas);
+        CacheControl cacheControl = CacheControl.maxAge(1, TimeUnit.HOURS).noTransform().mustRevalidate();
+       
+        return ResponseEntity.ok().cacheControl(cacheControl).body(visitas);
         
     }
     
