@@ -38,7 +38,7 @@ public class VeiculoController {
     VeiculoServiceImpl veiculoServiceImpl;
     @Autowired
     VeiculoRepositorio veiculoRepositorio;
-    @GetMapping(path = "/todosveiculos", produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping("/todosveiculos")
     public ResponseEntity<List<Veiculo>> getAllVeiculos(){
         CacheControl cacheControl = CacheControl.maxAge(1, TimeUnit.HOURS).noTransform().mustRevalidate();
         List<Veiculo> veiculos =  veiculoServiceImpl.todosVeiculos();
@@ -115,7 +115,7 @@ public class VeiculoController {
         return ResponseEntity.ok(msg);
         
     }
-    @GetMapping(path = "/buscarregistrosdevisitas", produces = MediaType.TEXT_XML_VALUE)
+    @GetMapping("/buscarregistrosdevisitas")
     public ResponseEntity<List<EntradaDeVisitantes>> buscarVisitantes(){
         List<EntradaDeVisitantes> visitas = veiculoServiceImpl.registrosDeVisitas();
         CacheControl cacheControl = CacheControl.maxAge(1, TimeUnit.HOURS).noTransform().mustRevalidate();
